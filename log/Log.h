@@ -4,26 +4,46 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+using std::string;
+using std::cout;
+using std::endl;
 
-const int MUTE = 0;
-const int LOG = 1;
-const int INFO = 2;
-const int DEBUG = 3;
+enum class LogLevel:int{
+	MUTE=0,
+	INFO,
+	LOG,
+	VERBOSE,
+	DEBUG,
+	NUM_T};
 
-int LOGLEVEL = 0;
-
-static const CODESTRING[4][] = {
+static constexpr int CODELEN= static_cast<int>(LogLevel::NUM_T);
+static const string CODESTRING[]={
 	"",
-	"LOG: ",
 	"INFO: ",
+	"LOG: ",
 	"VERBOSE: ",
 	"DEBUG: "};
 
-void log(int tag,string info)
+class Log
 {
-	if(tag>LOGLEVEL)
-		return;
-	std::cout<<CODESTRING[tag]<<info<<std::endl;
-}
+
+	LogLevel level;
+
+public:
+	Log(LogLevel lv=LogLevel::LOG):level(lv){}
+	
+	void i(LogLevel tag,string str)
+	{
+		if(tag==LogLevel::MUTE)
+			return;
+		if(static_cast<int>(tag) > static_cast<int>(level))
+			return;
+		cout<<CODESTRING[static_cast<int>(tag)]<<str<<endl;
+	}
+	void i(string tag,string str)
+	{
+		cout<<tag<<':'<<str<<endl;
+	}
+}log;
 
 #endif
