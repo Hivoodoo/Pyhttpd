@@ -79,4 +79,6 @@ namespace
 	};
 }
 
+BlockingQueue MessageQueue;
+
 #endif
