@@ -41,8 +41,7 @@ namespace
 			throw()
 		{
 			unique_lock<mutex> lock (mMutex);
-			auto now = chrono::system_clock::now();
-			mCondVar.wait_until(lock, now + time, [this]{
+			mCondVar.wait_for(lock, time, [this]{
 				return !mQueue.empty();
 			});
 			if (mQueue.empty())
