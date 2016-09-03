@@ -1,13 +1,17 @@
 include head.mk
 
-SUBDIR=logger
+SUBDIRS= connector core
+PHONY += $(SUBDIRS)
+.PHONY: $(PHONY)
+
+all: $(SUBDIRS)
+
+$(SUBDIRS):
+	$(MAKE) -C $@
 
 
-all: ${SUBDIR}
-	$(MAKE) -C $(SUBDIR)
-
-test: ${}
-	$(MAKE) -C $(SUBDIR) test
+test:
+	${MAKE} -C ${SUBDIR} test
 
 clean: 
-	$(MAKE) -C $(SUBDIR) clean
+	${MAKE} -C ${SUBDIR} clean
